@@ -13,14 +13,14 @@ void main() {
 
 const fsSource = `
 void main() {
-    gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+    gl_FragColor = vec4(0, 0, 1.0, 1.0);
 }
 `;
 
-const lightblue = {
+const black = {
     r: 0,
     g: 0,
-    b: 1,
+    b: 0,
 };
 
 main();
@@ -40,7 +40,7 @@ function main() {
     }
 
     // Set clear color to black, fully opaque
-    gl.clearColor(lightblue.r, lightblue.g, lightblue.b, 1.0);
+    gl.clearColor(black.r, black.g, black.b, 1.0);
     // Clear the color buffer with specified clear color
     gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -141,7 +141,7 @@ function loadShader(gl, type, source) {
 }
 
 function drawScene(gl, programInfo, buffers) {
-  gl.clearColor(lightblue.r, lightblue.g, lightblue.b, 1.0);  // Clear to black, fully opaque
+  gl.clearColor(black.r, black.g, black.b, 1.0);  // Clear to black, fully opaque
   gl.clearDepth(1.0);                 // Clear everything
   gl.enable(gl.DEPTH_TEST);           // Enable depth testing
   gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
