@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-47956770-2"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments)};
+            gtag('js', new Date());
+
+            gtag('config', 'UA-47956770-2');
+        </script>
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>microhacks: 3d: three.js: draw a line</title>
+
+        <style>
+            .hack {
+                margin-top: 2em !important;
+                margin-bottom: 2em !important;
+            }
+
+            #threeCanvas {
+                width: 640px;
+                height: 480px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <nav class="light-blue lighten-1" role="navigation">
+            <div class="nav-wrapper container">
+                <a id="logo-container" href="/" class="breadcrumb">microhacks</a>
+                <a id="logo-container" href="/3d/" class="breadcrumb">3d</a>
+                <a id="logo-container" href="/3d/threejs/" class="breadcrumb">three.js</a>
+                <a id="logo-container" href="/3d/threejs/draw-a-line/" class="breadcrumb">draw a line</a>
+
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="https://github.com/ian-kent/microhacks/tree/master/3d/threejs/draw-a-line"><i class="material-icons left">code</i> View the code</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container hack">
+            <div class="center-align">
+                <canvas id="threeCanvas" width="640" height="480"></canvas>
+            </div>
+            <script src="../scripts/three.js"></script>
+            <script src="main.js"></script>
+        </div>
+
+
+        <footer class="page-footer orange">
+            <div class="container">
+                <div class="row">
+                    <div class="col l9 s12">
+                        <h5 class="white-text">Microhacks?</h5>
+                        <p class="grey-text text-lighten-4">
+                            Inspired by <a class="white-text" href="https://twitter.com/benjaminbenben">Ben Foxall</a>'s talk
+                            at <a class="white-text" href="https://2017.fullstackfest.com/">Full Stack Fest</a>, this is my collection of microhacks.
+                            <br/><br/>
+                            Beware: terrible code!
+                        </p>
+                    </div>
+                    <div class="col l3 s12">
+                        <h5 class="white-text">Connect</h5>
+                        <ul>
+                            <li><a class="white-text" href="https://github.com/ian-kent">GitHub</a></li>
+                            <li><a class="white-text" href="https://twitter.com/iankent">Twitter</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    &copy; Ian Kent, 2017
+                </div>
+            </div>
+        </footer>
+        
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    </body>
+</html>
