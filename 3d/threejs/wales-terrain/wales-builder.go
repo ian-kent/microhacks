@@ -42,6 +42,13 @@ func main() {
 		}
 	}
 
+	outTexture := image.NewRGBA(image.Rect(0, 0, (6000 / div), (6000 / div)))
+	for x := 0; x < 6000/div; x++ {
+		for y := 0; y < 6000/div; y++ {
+			outTexture.SetRGBA(x, y, color.RGBA{0, 0, 255, 255})
+		}
+	}
+
 	refSize := 10
 	gridSize := 200
 	gridPoints := gridSize * gridSize
@@ -100,6 +107,15 @@ func main() {
 							walesData[gridY+localY][gridX+localX] = num
 
 							outImg.Set(gridX+localX, gridY+localY, color.RGBA{uint8(num / 5), uint8(num / 5), uint8(num / 5), 255})
+							var c color.RGBA
+							if num > 600 {
+								c = color.RGBA{255, 255, 255, 255}
+							} else if num <= 0 {
+								c = color.RGBA{0, 0, 255, 255}
+							} else {
+								c = color.RGBA{0, 255, 0, 255}
+							}
+							outTexture.Set(gridX+localX, gridY+localY, c)
 						}
 					}
 				}
@@ -140,6 +156,13 @@ func main() {
 	}
 	defer f.Close()
 	png.Encode(f, outImg)
+
+	f, err = os.Create("texture.png")
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+	png.Encode(f, outTexture)
 }
 
 func ascToStruct(b []byte) gridFile {

@@ -27,7 +27,7 @@ var scene = new THREE.Scene();
 		geometry.computeVertexNormals();
 		
 		var material = new THREE.MeshPhongMaterial({
-			color: 0xdddddd, 
+			map: THREE.ImageUtils.loadTexture('texture.png')
 		});
 
 		var plane = new THREE.Mesh(geometry, material);
