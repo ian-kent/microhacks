@@ -2,7 +2,7 @@ var renderer = new THREE.WebGLRenderer({canvas:document.querySelector("#threeCan
 renderer.setSize( 640, 480 );
 
 var camera = new THREE.PerspectiveCamera( 75, 640 / 480, 0.1, 1000 );
-camera.position.set(0, -100, 100);
+camera.position.set(0, -500, 500);
 camera.up = new THREE.Vector3(0,0,1);
 camera.lookAt(new THREE.Vector3(1000, 10000, 0));
 
@@ -10,15 +10,13 @@ var scene = new THREE.Scene();
 
 {
 	var loader = new THREE.TextureLoader();
-	loader.load('../geodata/SN98.png', texture => {
-		var canvas = document.createElement( 'canvas' );
-		var context = canvas.getContext( '2d' );
-		context.drawImage( texture.image, 0, 0 );
-		let imgdata = context.getImageData(0,0,200,200).data;
-
+	fetch('../geodata/SN98.json').then(response => {
+		return response.json();
+	}).then(json => {
 		var geometry = new THREE.PlaneGeometry(1000, 1000, 199, 199);
 		for (var i = 0, l = geometry.vertices.length; i < l; i++) {
-			geometry.vertices[i].z = -imgdata[(i*4)];
+			// geometry.vertices[i].z = -imgdata[(i*4)];
+			geometry.vertices[i].z = json[i];
 		}
 		geometry.computeFaceNormals();
         geometry.computeVertexNormals();
