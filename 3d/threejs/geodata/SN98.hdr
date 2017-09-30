@@ -1,0 +1,14 @@
+ENVI
+description = {
+3d/threejs/geodata/SN98.bin}
+samples = 200
+lines   = 200
+bands   = 1
+header offset = 0
+file type = ENVI Standard
+data type = 12
+interleave = bsq
+byte order = 0
+map info = {Arbitrary, 1, 1, 290000, 290000, 50, 50, 0, North}
+band names = {
+Band 1}
