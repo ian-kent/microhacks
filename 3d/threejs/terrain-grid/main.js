@@ -10,7 +10,7 @@ var scene = new THREE.Scene();
 
 {
 	var loader = new THREE.TextureLoader();
-	fetch('../geodata/SN98.json').then(response => {
+	fetch('geodata/SN98.json').then(response => {
 		return response.json();
 	}).then(json => {
 		var geometry = new THREE.PlaneGeometry(1000, 1000, 199, 199);
