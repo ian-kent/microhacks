@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-47956770-2"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments)};
+            gtag('js', new Date());
+
+            gtag('config', 'UA-47956770-2');
+        </script>
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>microhacks: firebase: basic sync</title>
+
+        <style>
+            .hack {
+                margin-top: 2em !important;
+                margin-bottom: 2em !important;
+            }
+        </style>
+    </head>
+
+    <body>
+        <nav class="light-blue lighten-1" role="navigation">
+            <div class="nav-wrapper container">
+                <a id="logo-container" href="/" class="breadcrumb">microhacks</a>
+                <a id="logo-container" href="/firebase/" class="breadcrumb">firebase</a>
+                <a id="logo-container" href="/svg/basic-sync/" class="breadcrumb">basic sync</a>
+
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="https://github.com/ian-kent/microhacks/tree/master/firebase/basic-sync"><i class="material-icons left">code</i> View the code</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container hack">
+            <div class="center-align" style="width: 640px; margin: auto; background: black; color: white;">
+                <div>
+                    <a id="link2" style="display: none;" href="./">Create a new counter</a>
+                </div>
+                <div class="app row" style="height: 180px; margin: auto;">
+                    <iframe class="col s6" style="height: 100%;"></iframe>
+                    <iframe class="col s6" style="height: 100%;"></iframe>
+                </div>
+                <div class="app row" style="height: 180px; margin: auto;">
+                    <iframe class="col s6" style="height: 100%;"></iframe>
+                    <iframe class="col s6" style="height: 100%;"></iframe>
+                </div>                   
+
+                <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+                <script>
+                    var config={apiKey:"AIzaSyA4OFRqfVNKS0Pi4ftz3Fz7_uUVBmxqy_Y",authDomain:"meeting-cost-65773.firebaseapp.com",databaseURL:"https://meeting-cost-65773.firebaseio.com",projectId:"meeting-cost-65773",storageBucket:"meeting-cost-65773.appspot.com",messagingSenderId:"124729494270"};firebase.initializeApp(config)
+                </script>
+                <script src="http://wzrd.in/standalone/uuid%2Fv4@latest"></script>
+                <script>
+                    const search = window.location.search;
+                    let uid = "";
+                    let email = "";
+
+                    if(search.length > 1) {
+                        uid = search.substring(1);
+                        email = uid + "@basic-sync.ian-kent.github.io";
+                        ready();
+                    } else {
+                        uid = uuidv4();
+                        email = uid + "@basic-sync.ian-kent.github.io";
+                        window.history.pushState(null, "", "?" + uid);
+                        createUser();
+                    }
+
+                    function ready() {
+                        document.querySelector("#link2").setAttribute("style", "");
+
+                        document.querySelectorAll("iframe").forEach(frame => {
+                            frame.setAttribute("src", "app.html?" + uid);
+                        })
+                    }
+
+                    function createCounter(userData) {
+                        const counter = {
+                            uid: userData.uid,
+                            value: 0,
+                        };
+                        window.firebase.database().ref('/counters/' + uid).set(counter, (error) => {
+                            if (error) {
+                                console.log('Error creating counter:', error);
+                                return;
+                            }
+
+                            console.log('Created counter', uid);
+                            ready();
+                        });
+                    }
+
+                    function createUser() {
+                        window.firebase.auth().createUserWithEmailAndPassword(email, uid).then(() => {
+                            console.log('Created user ', email);
+                            signIn();
+                        }, (error) => {
+                            console.log('Create user failed: ', error);
+                        });
+                    }
+
+                    function signIn() {
+                        window.firebase.auth().signOut();
+                        window.firebase.auth().signInWithEmailAndPassword(email, uid).then((userData) => {
+                            console.log(userData);
+                            createCounter(userData);
+                        }, (error) => {
+                            console.log('User login failed: ', error);
+                        })
+                    }
+                </script>
+            </div>
+        </div>
+
+
+        <footer class="page-footer orange">
+            <div class="container">
+                <div class="row">
+                    <div class="col l9 s12">
+                        <h5 class="white-text">Microhacks?</h5>
+                        <p class="grey-text text-lighten-4">
+                            Inspired by <a class="white-text" href="https://twitter.com/benjaminbenben">Ben Foxall</a>'s talk
+                            at <a class="white-text" href="https://2017.fullstackfest.com/">Full Stack Fest</a>, this is my collection of microhacks.
+                            <br/><br/>
+                            Beware: terrible code!
+                        </p>
+                    </div>
+                    <div class="col l3 s12">
+                        <h5 class="white-text">Connect</h5>
+                        <ul>
+                            <li><a class="white-text" href="https://github.com/ian-kent">GitHub</a></li>
+                            <li><a class="white-text" href="https://twitter.com/iankent">Twitter</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    &copy; Ian Kent, 2017
+                </div>
+            </div>
+        </footer>
+        
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    </body>
+</html>

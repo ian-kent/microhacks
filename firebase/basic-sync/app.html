@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-47956770-2"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments)};
+            gtag('js', new Date());
+
+            gtag('config', 'UA-47956770-2');
+        </script>
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>microhacks: firebase: basic sync</title>
+
+        <style>
+            .hack {
+                margin-top: 2em !important;
+                margin-bottom: 2em !important;
+            }
+            html, body {
+                margin: 0;
+                padding: 0;
+            }
+            h1 {
+                margin-top: 2rem;
+                margin-bottom: 0.5rem;
+                color: white !important;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1 id="loading">Loading...</h1>
+        <div class="center-align" style="display: none;" id="app">
+            <h1 id="counter">0</h1>
+            <div>
+                <a class="waves-effect waves-light btn" disabled id="increment">Increment</a>
+                <a class="waves-effect waves-light btn" disabled id="decrement">Decrement</a>
+            </div>
+        </div>
+
+        <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+        <script>
+            var config={apiKey:"AIzaSyA4OFRqfVNKS0Pi4ftz3Fz7_uUVBmxqy_Y",authDomain:"meeting-cost-65773.firebaseapp.com",databaseURL:"https://meeting-cost-65773.firebaseio.com",projectId:"meeting-cost-65773",storageBucket:"meeting-cost-65773.appspot.com",messagingSenderId:"124729494270"};firebase.initializeApp(config)
+        </script>
+        <script src="http://wzrd.in/standalone/uuid%2Fv4@latest"></script>
+        <script>
+            const search = window.location.search;
+            let uid = "";
+            let email = "";
+
+            if(search.length > 1) {
+                uid = search.substring(1);
+                email = uid + "@basic-sync.ian-kent.github.io";
+                signIn();
+            }
+
+            function ready() {
+                document.querySelector("#loading").setAttribute("style", "display: none;");
+                document.querySelector("#app").setAttribute("style", "");
+                document.querySelector("#increment").removeAttribute("disabled");
+                document.querySelector("#decrement").removeAttribute("disabled");
+                document.querySelector("#increment").onclick = () => { increment(1) }
+                document.querySelector("#decrement").onclick = () => { increment(-1) }
+            }
+
+            function increment(n) {
+                console.log("increment", n);
+                window.firebase.database().ref('/counters/' + uid).transaction(function(counter) {
+                    counter.value += n;
+                    return counter;
+                });
+            }
+
+            function watchCounter() {
+                const ref = window.firebase.database().ref('/counters/' + uid);
+                ref.on("value", (value) => {
+                    console.log(value.val());
+                    document.querySelector("#counter").innerText = value.val().value;
+                    ready();
+                })
+            }
+
+            function signIn() {
+                window.firebase.auth().signOut();
+                window.firebase.auth().signInWithEmailAndPassword(email, uid).then((userData) => {
+                    console.log(userData);
+                    watchCounter();
+                }, (error) => {
+                    console.log('User login failed: ', error);
+                })
+            }
+        </script>
+        
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    </body>
+</html>
