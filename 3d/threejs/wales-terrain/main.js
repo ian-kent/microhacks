@@ -2,7 +2,7 @@ var renderer = new THREE.WebGLRenderer({canvas:document.querySelector("#threeCan
 renderer.setSize( 640, 480 );
 
 var camera = new THREE.PerspectiveCamera( 75, 640 / 480, 0.1, 100000 );
-camera.position.set(0, -3500, 6000);
+camera.position.set(0, -8000, 15000);
 camera.up = new THREE.Vector3(0,0,1);
 camera.lookAt(new THREE.Vector3(5000, 5000, 1000));
 
@@ -15,7 +15,7 @@ var scene = new THREE.Scene();
 		console.log("got json");
 		var div = 10;
 
-		var geometry = new THREE.PlaneGeometry(10000, 10000, (6000 / div)-1, (6000 / div)-1);
+		var geometry = new THREE.PlaneGeometry(30000, 30000, (6000 / div)-1, (6000 / div)-1);
 		console.log("created geometry");
 
 		for (var i = 0, l = geometry.vertices.length; i < l; i++) {
